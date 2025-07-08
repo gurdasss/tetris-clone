@@ -1,3 +1,4 @@
+#include "Tetrimino.h"
 #include <raylib.h>
 
 int main()
@@ -11,18 +12,30 @@ int main()
     constexpr int targetFPS{60};
     SetTargetFPS(targetFPS);
 
-    while (!WindowShouldClose())
-    {
-        BeginDrawing();
+	Tetrimino t1{Vector2{screenW / 2.0f, screenH / 2.0f}, Tetrimino::T, RED};
 
-        ClearBackground(RAYWHITE);
+	while (!WindowShouldClose())
+	{
 
-        DrawFPS(0, 0);
+		// rotate the tile 90 degree around its pivot
+		if (IsKeyPressed(KEY_UP))
+		{
 
-        EndDrawing();
-    }
+			t1.rotate90DegClockwise();
+		}
 
-    CloseWindow();
+		BeginDrawing();
 
-    return 0;
+		ClearBackground(RAYWHITE);
+
+		t1.draw(true);
+
+		DrawFPS(0, 0);
+
+		EndDrawing();
+	}
+
+	CloseWindow();
+
+	return 0;
 }

@@ -36,8 +36,8 @@
                 // Add additionally header files from
                 // current workspace folder
                 "-I${workspaceFolder}/include",
-                // The ${file} variable expands to the current file name.
-                "${file}",
+                // complie all available C++ files
+                "${fileDirname}/**.cpp",
                 // Specify the output file. The output will be placed in the same directory with the same base name.
                 // "-o",
                 // "${fileDirname}/${fileBasenameNoExtension}",
