@@ -13,11 +13,178 @@ void Tetrimino::arrangeTiles(Type type)
 {
 	switch (type)
 	{
+	case O:
+		m_tiles[0] = {
+			m_refPos.x + (s_tileW / 2.0f),
+			m_refPos.y + (s_tileH / 2.0f),
+			0,
+			0,
+		};
+		m_tiles[1] = {
+			m_tiles[0].x + s_tileW,
+			m_tiles[0].y,
+			0,
+			0,
+		};
+		m_tiles[2] = {
+			m_tiles[0].x,
+			m_tiles[0].y + s_tileH,
+			0,
+			0,
+		};
+		m_tiles[3] = {
+			m_tiles[1].x,
+			m_tiles[2].y,
+			0,
+			0,
+		};
+		break;
+
 	case T:
 		m_tiles[0] = {m_refPos.x, m_refPos.y, 1, 0};
-		m_tiles[1] = {m_refPos.x + s_tileW, m_refPos.y, 1, 1};
-		m_tiles[2] = {m_refPos.x + s_tileW * 2, m_refPos.y, 0, 1};
-		m_tiles[3] = {m_refPos.x + s_tileW, m_refPos.y + s_tileH, 0, 0};
+
+		m_tiles[1] = {
+			m_refPos.x + s_tileW,
+			m_refPos.y,
+			1,
+			1,
+		};
+
+		m_tiles[2] = {
+			m_tiles[1].x + s_tileW,
+			m_refPos.y,
+			0,
+			1,
+		};
+		m_tiles[3] = {
+			m_tiles[1].x,
+			m_refPos.y + s_tileH,
+			0,
+			0,
+		};
+		break;
+
+	case S:
+		m_tiles[3] = {
+			m_refPos.x + s_tileW * 2.0f,
+			m_refPos.y + s_tileH,
+			-1,
+			1,
+		};
+
+		m_tiles[2] = {
+			m_tiles[3].x - s_tileW,
+			m_tiles[3].y,
+			0,
+			0,
+		};
+
+		m_tiles[1] = {
+			m_tiles[2].x,
+			m_tiles[3].y + s_tileH,
+			-1,
+			-1,
+		};
+
+		m_tiles[0] = {
+			m_tiles[2].x - s_tileW,
+			m_tiles[1].y,
+			0,
+			-1,
+		};
+		break;
+
+	case Z:
+		m_tiles[0] = {
+			m_refPos.x,
+			m_refPos.y + s_tileH,
+			1,
+			-1,
+		};
+
+		m_tiles[1] = {
+			m_refPos.x + s_tileW,
+			m_tiles[0].y,
+			0,
+			0,
+		};
+
+		m_tiles[2] = {
+			m_tiles[1].x,
+			m_tiles[0].y + s_tileH,
+			-1,
+			-1,
+		};
+
+		m_tiles[3] = {
+			m_tiles[1].x + s_tileW,
+			m_tiles[2].y,
+			-1,
+			0,
+		};
+		break;
+
+	case L:
+		m_tiles[0] = {
+			m_refPos.x,
+			m_refPos.y,
+			1,
+			0,
+		};
+
+		m_tiles[1] = {
+			m_refPos.x,
+			m_refPos.y + s_tileH,
+			1,
+			-1,
+		};
+
+		m_tiles[2] = {
+			m_refPos.x,
+			m_tiles[1].y + s_tileH,
+			0,
+			-1,
+		};
+
+		m_tiles[3] = {
+			m_refPos.x + s_tileW,
+			m_tiles[2].y,
+			-1,
+			-1,
+		};
+
+		break;
+
+	case J:
+
+		m_tiles[0] = {
+			m_refPos.x + s_tileW * 2.0f,
+			m_refPos.y,
+			0,
+			1,
+		};
+
+		m_tiles[1] = {
+			m_tiles[0].x,
+			m_refPos.y + s_tileH,
+			-1,
+			1,
+		};
+
+		m_tiles[2] = {
+			m_tiles[0].x,
+			m_tiles[1].y + s_tileH,
+			-1,
+			0,
+		};
+
+		m_tiles[3] = {
+			m_tiles[0].x - s_tileW,
+			m_tiles[2].y,
+			-1,
+			-1,
+		};
+
 		break;
 
 	default:

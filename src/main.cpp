@@ -15,12 +15,12 @@ int main()
 	Tetrimino t1{
 		screenW / 2.0f - (Tetrimino::s_tetriminoW / 2.0f),
 		100 - (Tetrimino::s_tetriminoH / 2.0f),
-		Tetrimino::T,
+		Tetrimino::J,
 	};
 
 	while (!WindowShouldClose())
 	{
-
+#if 0
 		static int s_frameCounter{};
 		constexpr int tileFPS{2};
 
@@ -35,6 +35,13 @@ int main()
 			s_frameCounter = 0;
 		}
 
+		// increase the frame counter's count
+		// so that tile's Y position will
+		// update much more quickly
+		if (IsKeyDown(KEY_DOWN))
+			s_frameCounter += 10;
+
+#endif
 		// rotate the tile 90 degree around its pivot
 		if (IsKeyPressed(KEY_UP))
 			t1.rotate90DegClockwise();
@@ -43,12 +50,6 @@ int main()
 			t1.moveLeft();
 		else if (IsKeyPressed(KEY_RIGHT))
 			t1.moveRight();
-
-		// increase the frame counter's count
-		// so that tile's Y position will
-		// update much more quickly
-		if (IsKeyDown(KEY_DOWN))
-			s_frameCounter += 10;
 
 		BeginDrawing();
 
