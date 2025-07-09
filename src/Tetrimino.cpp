@@ -3,15 +3,9 @@
 #include <raymath.h> // for Vector2Rotate
 #include <cmath>	 // for std::abs
 
-Tetrimino::Tetrimino(const Vector2 &position,
-					 Type type,
-					 const Color &color)
-	: m_color{color}
+Tetrimino::Tetrimino(float x, float y, Type type)
+	: m_refPos{Vector2{x, y}}
 {
-
-	m_refRec.x = position.x - m_refRec.width / 2.0f;
-	m_refRec.y = position.y - m_refRec.height / 2.0f;
-
 	arrangeTiles(type);
 }
 
@@ -20,10 +14,10 @@ void Tetrimino::arrangeTiles(Type type)
 	switch (type)
 	{
 	case T:
-		m_tiles[0] = {m_refRec.x, m_refRec.y, 1, 0};
-		m_tiles[1] = {m_refRec.x + s_tileW, m_refRec.y, 1, 1};
-		m_tiles[2] = {m_refRec.x + s_tileW * 2, m_refRec.y, 0, 1};
-		m_tiles[3] = {m_refRec.x + s_tileW, m_refRec.y + s_tileH, 0, 0};
+		m_tiles[0] = {m_refPos.x, m_refPos.y, 1, 0};
+		m_tiles[1] = {m_refPos.x + s_tileW, m_refPos.y, 1, 1};
+		m_tiles[2] = {m_refPos.x + s_tileW * 2, m_refPos.y, 0, 1};
+		m_tiles[3] = {m_refPos.x + s_tileW, m_refPos.y + s_tileH, 0, 0};
 		break;
 
 	default:
@@ -35,7 +29,11 @@ void Tetrimino::draw(bool debug) const
 {
 	if (debug)
 	{
-		DrawRectangleRec(m_refRec, LIGHTGRAY);
+		DrawRectangle(static_cast<int>(m_refPos.x),
+					  static_cast<int>(m_refPos.y),
+					  s_tetriminoW,
+					  s_tetriminoH,
+					  LIGHTGRAY);
 
 		for (const Vector4 &tilePos : m_tiles)
 			DrawCircle(static_cast<int>(tilePos.x),
@@ -48,7 +46,7 @@ void Tetrimino::draw(bool debug) const
 					  static_cast<int>(tilePos.y),
 					  s_tileW,
 					  s_tileH,
-					  m_color);
+					  RED);
 }
 
 void Tetrimino::rotate90DegClockwise()
@@ -65,12 +63,38 @@ void Tetrimino::rotate90DegClockwise()
 		Vector2 rotatedPoint{
 			Vector2Rotate(Vector2{tile.z, tile.w}, tileRotationRad)};
 
-		float steps{(3.0f - (std::abs(rotatedPoint.x) +
-							 std::abs(rotatedPoint.y)))};
+		float steps{(s_scale - (std::abs(rotatedPoint.x) +
+								std::abs(rotatedPoint.y)))};
 
 		tile.x += rotatedPoint.x * s_tileW * steps;
 		tile.y += rotatedPoint.y * s_tileH * steps;
 	}
 
 	rotationDeg += 90.0f;
+}
+
+void Tetrimino::moveDown()
+{
+	m_refPos.y += s_tileH;
+
+	for (Vector4 &tile : m_tiles)
+		tile.y += s_tileH;
+}
+
+void Tetrimino::moveLeft()
+{
+	moveAcrossX(-1.0f);
+}
+
+void Tetrimino::moveRight()
+{
+	moveAcrossX(1.0f);
+}
+
+void Tetrimino::moveAcrossX(float direction)
+{
+	m_refPos.x += s_tileW * direction;
+
+	for (Vector4 &tile : m_tiles)
+		tile.x += s_tileW * direction;
 }
